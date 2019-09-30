@@ -11,7 +11,7 @@
 }
 
 p{
-    font-size: 50px;
+    font-size: 30px;
     padding-top: 10px;
 }
 #question{
@@ -22,7 +22,19 @@ p{
 button{
     width: 50%;
     height: 75px;
+   
 }
 .buttonDiv{
     margin-top: 20px;
+  
 }
+.bigNum{
+    font-size: 50px;
+    text-align: center;
+    
+}
+
+.hideDisplay{
+    visibility: hidden;
+}
+
