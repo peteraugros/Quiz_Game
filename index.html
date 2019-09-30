@@ -8,9 +8,9 @@
     <title>Quiz-Game</title>
 
     <!-- link to css -->
-    <link rel="stylesheet" type="text/css" href="Quiz-Game.css">
+    <link rel="stylesheet" type="text/css" href="Quiz_Game.css">
     <!-- link to js -->
-    <script type="text/javascript" src="Quiz-Game.js"></script>
+    <script type="text/javascript" src="Quiz_Game.js"></script>
     <!-- link to bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -21,26 +21,26 @@
     <div class="container">
         <div class="row">
             <div class="col-xl-12" id="header">
-                <p>Quiz-Game</p>
+                <p id="title">Quiz-Game</p>
             </div>
         </div>
 
         <div class="row">
             <div class="col-xl-12" id="question">
-                <p id="questionText"></p>
+                <p id="questionText">Press Play To Start</p>
             </div>
         </div>
 
-        <div class="row buttonDiv">
+        <div class="row buttonDiv offset-xl-2">
             <div class="col-xl-6">
-                <button type="button" class="btn btn-primary btn-lg" id="button1">Play</button>
+                <button type="button" class="btn btn-primary btn-lg " id="button1">Play</button>
             </div>
             <div class="col-xl-6">
                 <button type="button" class="btn btn-primary btn-lg" id="button2"></button>
             </div>
         </div>
 
-        <div class="row buttonDiv">
+        <div class="row buttonDiv offset-xl-2">
             <div class="col-xl-6">
                 <button type="button" class="btn btn-primary btn-lg" id="button3"></button>
             </div>
@@ -61,7 +61,7 @@ var bottomLeftButton = document.getElementById("button1");
 topLeftButton.addEventListener("click", setQuestion);
 
 function setQuestion(){
-    
+    alert("working!");
 }
 
 </script>

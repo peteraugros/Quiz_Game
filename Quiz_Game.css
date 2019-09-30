@@ -1,0 +1,28 @@
+#body{
+    background-color: #D8D9DE;
+}
+
+#header{
+    background-color: #6E7889;
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    
+}
+
+p{
+    font-size: 50px;
+    padding-top: 10px;
+}
+#question{
+    text-align: center;
+    border: 5px solid black;
+    margin-top: 20px;
+}
+button{
+    width: 50%;
+    height: 75px;
+}
+.buttonDiv{
+    margin-top: 20px;
+}
