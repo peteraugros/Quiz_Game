@@ -14,8 +14,12 @@
     <!-- link to bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- link to google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Mansalva&display=swap" rel="stylesheet">
 
 </head>
+
+<!--============================================================================================================ -->
 
 <body id="body">
     <div class="container">
@@ -27,44 +31,45 @@
 
         <div class="row">
             <div class="col-xl-12" id="question">
-                <p id="questionText"><button id="play" style="background-color: blue;" onclick="play()">Play</button></p>
+                <p id="questionText"><button id="play" style="background-color: blue;" onclick="play()">Play</button>
+                </p>
             </div>
         </div>
 
         <div class="row buttonDiv offset-xl-2">
             <div class="col-xl-6">
-                <button type="button" class="btn btn-primary btn-lg hideDisplay" id="button1" onclick="check1()"></button>
+                <button type="button" class="btn btn-primary btn-lg hideDisplay" id="button1"
+                    onclick="check1()"></button>
             </div>
             <div class="col-xl-6">
-                <button type="button" class="btn btn-primary btn-lg hideDisplay" id="button2" onclick="check2()"></button>
+                <button type="button" class="btn btn-primary btn-lg hideDisplay" id="button2"
+                    onclick="check2()"></button>
             </div>
         </div>
 
         <div class="row buttonDiv offset-xl-2">
             <div class="col-xl-6">
-                <button type="button" class="btn btn-primary btn-lg hideDisplay" id="button3" onclick="check3()"></button>
+                <button type="button" class="btn btn-primary btn-lg hideDisplay" id="button3"
+                    onclick="check3()"></button>
             </div>
             <div class="col-xl-6">
-                <button type="button" class="btn btn-primary btn-lg hideDisplay" id="button4" onclick="check4()"></button>
+                <button type="button" class="btn btn-primary btn-lg hideDisplay" id="button4"
+                    onclick="check4()"></button>
             </div>
         </div>
-<br><br>
+        <br><br>
         <div class="row">
-            <div class="col-xl-1">
-                <a class="bigNum hideDisplay" id="timerOutput">00:00</a>
+            <div class="col-xl-1 bottom-divs">
+                <a>Timer: </a><a class="bigNum hideDisplay" id="timerOutput">:15</a>
+            </div>
+
+            <div class="col-xl-1 bottom-divs">
+                <a>Score: </a> <a class="bigNum hideDisplay" id="scoreOutput">0</a>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-xl-1">
-                <a class="bigNum hideDisplay" id="scoreOutput">0</a>
-            </div>
-        </div>
-
-
     </div>
 
-
+    <!-- ============================================================================================================== -->
 
     <script>
         //setting variables
@@ -75,6 +80,14 @@
         var bottomRightButton = document.getElementById("button4");
         var getScore = document.getElementById("scoreOutput");
         var getTimer = document.getElementById("timerOutput");
+        var emptyArray = [];
+        var interval;
+        var interval2;
+        var interval3;
+        var initials;
+        var secondsLeft = 15;
+        var oneSecondRight = 2;
+        var oneSecondWrong = 2;
         var getAnswer;
         var score = 0;
 
@@ -157,9 +170,9 @@
             },
 
         ]
-        
+
         //changes displays to visible
-        function play(){
+        function play() {
             topLeftButton.style.visibility = "visible";
             topRightButton.style.visibility = "visible";
             bottomLeftButton.style.visibility = "visible";
@@ -170,85 +183,124 @@
 
             var play = document.getElementById("play");
             play.parentNode.removeChild(play);
-
             setUp();
+            timer();
+        }
+
+        //sets timer
+        function timer() {
+            interval = setInterval(function () {
+                secondsLeft--;
+                if (secondsLeft < 10) {
+                    getTimer.textContent = ":0" + secondsLeft;
+                }
+
+                if (secondsLeft >= 10 || secondsLeft < 0) {
+                    getTimer.textContent = ":" + secondsLeft;
+                }
+
+                if (secondsLeft === 0) {
+                    clearInterval(interval);
+                    alert("Time is up. You Lost");
+                }
+            }, 1000);
         }
         //post questions and possible answers
         function setUp() {
-        
-            //selecting random number for array
-            var random = Math.floor(Math.random() * 15);
 
+            //selecting random number for array
+            var random = Math.floor(Math.random() * questions.length);
+            console.log(questions.length);
             //print question to div
             questionText.textContent = questions[random].title;
 
             //print answers to buttons
-            topLeftButton.textContent = questions[random].choices[0]; 
+            topLeftButton.textContent = questions[random].choices[0];
             topRightButton.textContent = questions[random].choices[1];
             bottomLeftButton.textContent = questions[random].choices[2];
             bottomRightButton.textContent = questions[random].choices[3];
 
             //getting correct answer
             getAnswer = questions[random].answer;
-         
+
+
+            //removing the question from the array
+            questions.splice(random, 1);
+            if (questions.length === 0){
+                initials = prompt("Finished! Please enter your initials");
+                clearInterval(interval);
+            
+            }
+
         }
+
         //verifies input for button 1
-        function check1(){
+        function check1() {
             //grabbing the textContent from the selected button for comparison to right answer
             var buttonId1 = document.getElementById("button1").textContent;
             //comparing user answer to correct answer
-            if(buttonId1 === getAnswer){
+            if (buttonId1 === getAnswer) {
                 score++;
+                secondsLeft +=3
             } else {
                 score--;
+                secondsLeft -= 3;
+
             }
+            //pasting score result
             getScore.textContent = score;
             setUp();
+
         }
+
         //verifies input for button 2
-        function check2(){
+        function check2() {
             //grabbing the textContent from the selected button for comparison to right answer
             var buttonId2 = document.getElementById("button2").textContent;
             //comparing user answer to correct answer
-            if(buttonId2 === getAnswer){
+            if (buttonId2 === getAnswer) {
                 score++;
+                secondsLeft += 3;
             } else {
                 score--;
-            }
-            getScore.textContent = score;
-            setUp();
-        }
-        //verifies input for button 3
-        function check3(){
-            //grabbing the textContent from the selected button for comparison to right answer
-            var buttonId3 = document.getElementById("button3").textContent;
-            //comparing user answer to correct answer
-            if(buttonId3 === getAnswer){
-                score++;
-            } else {
-                score--;
-            }
-            getScore.textContent = score;
-            setUp();
-        }
-        //verifies input for button 4
-        function check4(){
-            //grabbing the textContent from the selected button for comparison to right answer
-            var buttonId4 = document.getElementById("button4").textContent;
-            //comparing user answer to correct answer
-            if(buttonId4 === getAnswer){
-                score++;
-            } else {
-                score--;
+                secondsLeft -= 3;
             }
             getScore.textContent = score;
             setUp();
         }
 
-        //sets timer
-        function timer(){
-            
+        //verifies input for button 3
+        function check3() {
+            //grabbing the textContent from the selected button for comparison to right answer
+            var buttonId3 = document.getElementById("button3").textContent;
+            //comparing user answer to correct answer
+            if (buttonId3 === getAnswer) {
+                score++;
+                secondsLeft += 3;
+            } else {
+                score--;
+                secondsLeft -= 3;
+            }
+            getScore.textContent = score;
+            setUp();
         }
+
+        //verifies input for button 4
+        function check4() {
+            //grabbing the textContent from the selected button for comparison to right answer
+            var buttonId4 = document.getElementById("button4").textContent;
+            //comparing user answer to correct answer
+            if (buttonId4 === getAnswer) {
+                score++;
+                secondsLeft += 3;
+            } else {
+                score--;
+                secondsLeft -= 3;
+            }
+            getScore.textContent = score;
+            setUp();
+        }
+
     </script>
 </body>
 

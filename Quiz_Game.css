@@ -1,6 +1,10 @@
 #body{
     background-color: #D8D9DE;
 }
+#title{
+    font-size: 55px;
+    font-family: 'Raleway', sans-serif;
+}
 
 #header{
     background-color: #6E7889;
@@ -13,15 +17,18 @@
 p{
     font-size: 30px;
     padding-top: 10px;
+    font-family: 'Raleway', sans-serif;
 }
 #question{
     text-align: center;
     border: 5px solid black;
     margin-top: 20px;
+    height: 150px;
 }
 button{
     width: 50%;
     height: 75px;
+    font-family: 'Raleway', sans-serif;
    
 }
 .buttonDiv{
@@ -31,10 +38,14 @@ button{
 .bigNum{
     font-size: 50px;
     text-align: center;
+    font-family: 'Raleway', sans-serif;
     
 }
 
 .hideDisplay{
     visibility: hidden;
+}
+.bottom-divs{
+    margin-right: 50px;
 }
 
