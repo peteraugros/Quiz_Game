@@ -68,270 +68,282 @@
 
             <div class="col-md-1 bottom-divs">
                 <a>Score: </a> <a class="bigNum hideDisplay" id="scoreOutput">0</a>
-            </div> 
+            </div>
         </div>
     </div>
+<script>
+//setting variables
+var questionDiv = document.getElementById("questionText");
+var topLeftButton = document.getElementById("button1");
+var topRightButton = document.getElementById("button2");
+var bottomLeftButton = document.getElementById("button3");
+var bottomRightButton = document.getElementById("button4");
+var getScore = document.getElementById("scoreOutput");
+var getTimer = document.getElementById("timerOutput");
+var emptyArray = [];
+var interval;
+var interval2;
+var interval3;
+var initials;
+var secondsLeft = 15;
+var oneSecondRight = 2;
+var oneSecondWrong = 2;
+var getAnswer;
+var score = 0;
 
-    <!-- ============================================================================================================== -->
+//quiz questions
+var questions = [
+    {
+        title: "The beaver is the national emblem of which country?",
+        choices: ["Canada", "Mexico", "Spain", "Peru"],
+        answer: "Canada"
+    },
+    {
+        title: "In which movie did Humphrey Bogart play Charlie Allnut?",
+        choices: ["It's a Wonderful Life", "Little Miss Sunshine", "African Queen", "Jaws"],
+        answer: "African Queen"
+    },
+    {
+        title: "Which singer’s real name is Stefani Joanne Angelina Germanotta?",
+        choices: ["Cher", "Lady Gaga", "Madonna", "Christina Aguilera"],
+        answer: "Lady Gaga"
+    },
+    {
+        title: "How many players are there in a baseball team?",
+        choices: ["Twelve", "Six", "Eleven", "Nine"],
+        answer: "Nine"
+    },
+    {
+        title: "Which TV show said, “Live long and prosper”?",
+        choices: ["Star Wars", "Star Treck", "Seinfeld", "Cheers"],
+        answer: "Star Treck"
+    },
+    {
+        title: "What kind of person shall not be honored on a US postal stamp, according to the US postal service and the Citizen’s Stamp Advisory Commitee?",
+        choices: ["A living person", "A dead person", "Any person", "A foreign person"],
+        answer: "A living person"
+    },
+    {
+        title: "What is the name of Batman’s butler?",
+        choices: ["Geeves", "Frederick", "Alf", "Alfred"],
+        answer: "Alfred"
+    },
+    {
+        title: "The average human body contains how many pints of blood?",
+        choices: ["Eight", "Nine", "Ten", "Eleven"],
+        answer: "Nine"
+    },
+    {
+        title: "Which US state is nearest to the old Soviet Union?",
+        choices: ["Ohio", "New Hampshire", "Alaska", "Hawaii"],
+        answer: "Alaska"
+    },
+    {
+        title: "In which city is Jim Morrison buried?",
+        choices: ["Tokyo", "London", "Paris", "New York"],
+        answer: "Paris"
+    },
+    {
+        title: "Hg is the chemical symbol of which element?",
+        choices: ["Mercury", "Hyglorine", "Lead", "Hydrogen"],
+        answer: "Mercury"
+    },
+    {
+        title: "The Pyrenees mountain range separates which two European countries?",
+        choices: ["Germany and Poland", "France and Spain", "Spain and Ireland", "US and Canada"],
+        answer: "France and Spain"
+    },
+    {
+        title: "Which movie features the song Ding Dong The Witch Is Dead?",
+        choices: ["Alice in Wonderland", "Wizard of Oz", "The Lion King", "The Matrix"],
+        answer: "Wizard of Oz"
+    },
+    {
+        title: "In Fahrenheit, at what temperature does water freeze?",
+        choices: ["32", "0", "12", "-4"],
+        answer: "32"
+    },
+    {
+        title: "What is Chandler’s last name in the sitcom Friends?",
+        choices: ["Bang", "Bong", "Bung", "Bing"],
+        answer: "Bing"
+    },
+]
 
-    <script>
-        //setting variables
-        var questionDiv = document.getElementById("questionText");
-        var topLeftButton = document.getElementById("button1");
-        var topRightButton = document.getElementById("button2");
-        var bottomLeftButton = document.getElementById("button3");
-        var bottomRightButton = document.getElementById("button4");
-        var getScore = document.getElementById("scoreOutput");
-        var getTimer = document.getElementById("timerOutput");
-        var emptyArray = [];
-        var interval;
-        var interval2;
-        var interval3;
-        var initials;
-        var secondsLeft = 15;
-        var oneSecondRight = 2;
-        var oneSecondWrong = 2;
-        var getAnswer;
-        var score = 0;
+//changes displays to visible
+function play() {
+    topLeftButton.style.visibility = "visible";
+    topRightButton.style.visibility = "visible";
+    bottomLeftButton.style.visibility = "visible";
+    bottomRightButton.style.visibility = "visible";
 
-        //quiz questions
-        var questions = [
-            {
-                title: "The beaver is the national emblem of which country?",
-                choices: ["Canada", "Mexico", "Spain", "Peru"],
-                answer: "Canada"
-            },
-            {
-                title: "In which movie did Humphrey Bogart play Charlie Allnut?",
-                choices: ["It's a Wonderful Life", "Little Miss Sunshine", "African Queen", "Jaws"],
-                answer: "African Queen"
-            },
-            {
-                title: "Which singer’s real name is Stefani Joanne Angelina Germanotta?",
-                choices: ["Cher", "Lady Gaga", "Madonna", "Christina Aguilera"],
-                answer: "Lady Gaga"
-            },
-            {
-                title: "How many players are there in a baseball team?",
-                choices: ["Twelve", "Six", "Eleven", "Nine"],
-                answer: "Nine"
-            },
-            {
-                title: "Which TV show said, “Live long and prosper”?",
-                choices: ["Star Wars", "Star Treck", "Seinfeld", "Cheers"],
-                answer: "Star Treck"
-            },
-            {
-                title: "What kind of person shall not be honored on a US postal stamp, according to the US postal service and the Citizen’s Stamp Advisory Commitee?",
-                choices: ["A living person", "A dead person", "Any person", "A foreign person"],
-                answer: "A living person"
-            },
-            {
-                title: "What is the name of Batman’s butler?",
-                choices: ["Geeves", "Frederick", "Alf", "Alfred"],
-                answer: "Alfred"
-            },
-            {
-                title: "The average human body contains how many pints of blood?",
-                choices: ["Eight", "Nine", "Ten", "Eleven"],
-                answer: "Nine"
-            },
-            {
-                title: "Which US state is nearest to the old Soviet Union?",
-                choices: ["Ohio", "New Hampshire", "Alaska", "Hawaii"],
-                answer: "Alaska"
-            },
-            {
-                title: "In which city is Jim Morrison buried?",
-                choices: ["Tokyo", "London", "Pais", "New York"],
-                answer: "Paris"
-            },
-            {
-                title: "Hg is the chemical symbol of which element?",
-                choices: ["Mercury", "Hyglorine", "Lead", "Hydrogen"],
-                answer: "Mercury"
-            },
-            {
-                title: "The Pyrenees mountain range separates which two European countries?",
-                choices: ["Germany and Poland", "France and Spain", "Spain and Ireland", "US and Canada"],
-                answer: "France and Spain"
-            },
-            {
-                title: "Which movie features the song Ding Dong The Witch Is Dead?",
-                choices: ["Alice in Wonderland", "Wizard of Oz", "The Lion King", "The Matrix"],
-                answer: "Wizard of Oz"
-            },
-            {
-                title: "In Fahrenheit, at what temperature does water freeze?",
-                choices: ["32", "0", "12", "-4"],
-                answer: "32"
-            },
-            {
-                title: "What is Chandler’s last name in the sitcom Friends?",
-                choices: ["Bang", "Bong", "Bung", "Bing"],
-                answer: "Bing"
-            },
+    getTimer.style.visibility = "visible";
+    getScore.style.visibility = "visible";
 
-        ]
+    var play = document.getElementById("play");
+    play.parentNode.removeChild(play);
+    setUp();
+    timer();
+}
 
-        //changes displays to visible
-        function play() {
-            topLeftButton.style.visibility = "visible";
-            topRightButton.style.visibility = "visible";
-            bottomLeftButton.style.visibility = "visible";
-            bottomRightButton.style.visibility = "visible";
-
-            getTimer.style.visibility = "visible";
-            getScore.style.visibility = "visible";
-
-            var play = document.getElementById("play");
-            play.parentNode.removeChild(play);
-            setUp();
-            timer();
+//sets timer
+function timer() {
+    interval = setInterval(function () {
+        secondsLeft--;
+        if (secondsLeft < 10) {
+            getTimer.textContent = ":0" + secondsLeft;
         }
 
-        //sets timer
-        function timer() {
-            interval = setInterval(function () {
-                secondsLeft--;
-                if (secondsLeft < 10) {
-                    getTimer.textContent = ":0" + secondsLeft;
-                }
-
-                if (secondsLeft >= 10 || secondsLeft < 0) {
-                    getTimer.textContent = ":" + secondsLeft;
-                }
-
-                if (secondsLeft === 0) {
-                    clearInterval(interval);
-                    alert("Time is up. You Lost");
-                }
-            }, 1000);
-        }
-        //post questions and possible answers
-        function setUp() {
-
-            //selecting random number for array
-            var random = Math.floor(Math.random() * questions.length);
-            console.log(questions.length);
-            //print question to div
-            questionText.textContent = questions[random].title;
-
-            //print answers to buttons
-            topLeftButton.textContent = questions[random].choices[0];
-            topRightButton.textContent = questions[random].choices[1];
-            bottomLeftButton.textContent = questions[random].choices[2];
-            bottomRightButton.textContent = questions[random].choices[3];
-
-            //getting correct answer
-            getAnswer = questions[random].answer;
-
-
-            //removing the question from the array
-            questions.splice(random, 1);
-            if (questions.length === 0) {
-                clearInterval(interval);
-                initialsDisplay();
-
-            }
-
+        if (secondsLeft >= 10 || secondsLeft < 0) {
+            getTimer.textContent = ":" + secondsLeft;
         }
 
-        //verifies input for button 1
-        function check1() {
-            //grabbing the textContent from the selected button for comparison to right answer
-            var buttonId1 = document.getElementById("button1").textContent;
-            //comparing user answer to correct answer
-            if (buttonId1 === getAnswer) {
-                score++;
-                secondsLeft += 3
-            } else {
-                score--;
-                secondsLeft -= 3;
-
-            }
-            //pasting score result
-            getScore.textContent = score;
-            setUp();
-
+        if (secondsLeft === 0) {
+            clearInterval(interval);
+            alert("Time is up. You Lost");
         }
+    }, 1000);
+}
 
-        //verifies input for button 2
-        function check2() {
-            //grabbing the textContent from the selected button for comparison to right answer
-            var buttonId2 = document.getElementById("button2").textContent;
-            //comparing user answer to correct answer
-            if (buttonId2 === getAnswer) {
-                score++;
-                secondsLeft += 3;
-            } else {
-                score--;
-                secondsLeft -= 3;
-            }
-            getScore.textContent = score;
-            setUp();
-        }
+//post questions and possible answers
+function setUp() {
 
-        //verifies input for button 3
-        function check3() {
-            //grabbing the textContent from the selected button for comparison to right answer
-            var buttonId3 = document.getElementById("button3").textContent;
-            //comparing user answer to correct answer
-            if (buttonId3 === getAnswer) {
-                score++;
-                secondsLeft += 3;
-            } else {
-                score--;
-                secondsLeft -= 3;
-            }
-            getScore.textContent = score;
-            setUp();
-        }
+    //selecting random number for array
+    var random = Math.floor(Math.random() * questions.length);
 
-        //verifies input for button 4
-        function check4() {
-            //grabbing the textContent from the selected button for comparison to right answer
-            var buttonId4 = document.getElementById("button4").textContent;
-            //comparing user answer to correct answer
-            if (buttonId4 === getAnswer) {
-                score++;
-                secondsLeft += 3;
-            } else {
-                score--;
-                secondsLeft -= 3;
-            }
-            getScore.textContent = score;
-            setUp();
-        }
+    //print question to div
+    questionText.textContent = questions[random].title;
 
-        function initialsDisplay() {
-            //re-hiding the buttons
-            initials = prompt("Finished! Please enter your initials");
-            if (initials != null) {
-                topLeftButton.style.visibility = "hidden";
-                topRightButton.style.visibility = "hidden";
-                bottomLeftButton.style.visibility = "hidden";
-                bottomRightButton.style.visibility = "hidden";
+    //print answers to buttons
+    topLeftButton.textContent = questions[random].choices[0];
+    topRightButton.textContent = questions[random].choices[1];
+    bottomLeftButton.textContent = questions[random].choices[2];
+    bottomRightButton.textContent = questions[random].choices[3];
 
-                getTimer.style.visibility = "hidden";
-                getScore.style.visibility = "hidden";
-                //making initials div visible
-                
-                
-                //pasting new initials
-                $("#questionText").text("Hall of Fame");
-                var newDiv = $("<div>");
-                newDiv.attr("class","initialsDiv");
-                newDiv.text(initials);
-                $("#question").append(newDiv);
-            }
+    //getting correct answer
+    getAnswer = questions[random].answer;
 
-            // document.getElementById("demo").innerHTML = initials;
-            // document.getElementById("case").style.display = 'block';
-            // dis(initials);????????????????????????????????
-        }
+    //removing the question from the array
+    questions.splice(random, 1);
+    if (questions.length === 0) {
+        clearInterval(interval);
+        initialsDisplay();
+    }
+}
 
-    </script>
+//verifies input for button 1
+function check1() {
+
+    //grabbing the textContent from the selected button for comparison to right answer
+    var buttonId1 = document.getElementById("button1").textContent;
+
+    //comparing user answer to correct answer
+    if (buttonId1 === getAnswer) {
+        score++;
+        secondsLeft += 3
+    } else {
+        score--;
+        secondsLeft -= 3;
+    }
+
+    //pasting score result
+    getScore.textContent = score;
+    setUp();
+}
+
+//verifies input for button 2
+function check2() {
+
+    //grabbing the textContent from the selected button for comparison to right answer
+    var buttonId2 = document.getElementById("button2").textContent;
+
+    //comparing user answer to correct answer
+    if (buttonId2 === getAnswer) {
+        score++;
+        secondsLeft += 3;
+    } else {
+        score--;
+        secondsLeft -= 3;
+    }
+    getScore.textContent = score;
+    setUp();
+}
+
+//verifies input for button 3
+function check3() {
+
+    //grabbing the textContent from the selected button for comparison to right answer
+    var buttonId3 = document.getElementById("button3").textContent;
+
+    //comparing user answer to correct answer
+    if (buttonId3 === getAnswer) {
+        score++;
+        secondsLeft += 3;
+    } else {
+        score--;
+        secondsLeft -= 3;
+    }
+    getScore.textContent = score;
+    setUp();
+}
+
+//verifies input for button 4
+function check4() {
+
+    //grabbing the textContent from the selected button for comparison to right answer
+    var buttonId4 = document.getElementById("button4").textContent;
+
+    //comparing user answer to correct answer
+    if (buttonId4 === getAnswer) {
+        score++;
+        secondsLeft += 3;
+    } else {
+        score--;
+        secondsLeft -= 3;
+    }
+    getScore.textContent = score;
+    setUp();
+}
+
+function initialsDisplay() {
+
+    //re-hiding the buttons
+    initials = prompt("Finished! Please enter your initials");
+    if (initials != null) {
+        topLeftButton.style.visibility = "hidden";
+        topRightButton.style.visibility = "hidden";
+        bottomLeftButton.style.visibility = "hidden";
+        bottomRightButton.style.visibility = "hidden";
+
+        getTimer.style.visibility = "hidden";
+        getScore.style.visibility = "hidden";
+        
+        //pasting new initials
+        $("#questionText").text("Hall of Fame");
+        var newDiv = $("<div>");
+        newDiv.attr("class", "initialsDiv");
+        newDiv.text(initials + " " + score + " points and " + secondsLeft + " seconds.");
+        $("#question").append(newDiv);
+
+        //saving initial info into a variable to be passed to local storage
+        var toStore = initials + " " + score + " points and " + secondsLeft + " seconds.";
+
+        //calling save initials function and passing string info for saving
+        savePastInitials(toStore);
+    }
+}
+
+function savePastInitials(toStore) {
+    // Put the object into storage
+    localStorage.setItem('initials', toStore);
+
+    //get old info stored to window
+    var newDiv2 = $("<div>");
+    newDiv2.attr("class", "initialsDiv");
+    newDiv2.text(localStorage.getItem("initials"));
+}
+
+</script>
 </body>
 
 </html>
