@@ -16,6 +16,9 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- link to google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Mansalva&display=swap" rel="stylesheet">
+    <!-- link to jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 
 </head>
 
@@ -24,48 +27,48 @@
 <body id="body">
     <div class="container">
         <div class="row">
-            <div class="col-xl-12" id="header">
+            <div class="col-md-12" id="header">
                 <p id="title">Quiz-Game</p>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-xl-12" id="question">
+            <div class="col-md-12" id="question">
                 <p id="questionText"><button id="play" style="background-color: blue;" onclick="play()">Play</button>
                 </p>
             </div>
         </div>
 
         <div class="row buttonDiv offset-xl-2">
-            <div class="col-xl-6">
+            <div class="col-md-6">
                 <button type="button" class="btn btn-primary btn-lg hideDisplay" id="button1"
                     onclick="check1()"></button>
             </div>
-            <div class="col-xl-6">
+            <div class="col-md-6">
                 <button type="button" class="btn btn-primary btn-lg hideDisplay" id="button2"
                     onclick="check2()"></button>
             </div>
         </div>
 
         <div class="row buttonDiv offset-xl-2">
-            <div class="col-xl-6">
+            <div class="col-md-6">
                 <button type="button" class="btn btn-primary btn-lg hideDisplay" id="button3"
                     onclick="check3()"></button>
             </div>
-            <div class="col-xl-6">
+            <div class="col-md-6">
                 <button type="button" class="btn btn-primary btn-lg hideDisplay" id="button4"
                     onclick="check4()"></button>
             </div>
         </div>
         <br><br>
         <div class="row">
-            <div class="col-xl-1 bottom-divs">
+            <div class="col-md-1 bottom-divs">
                 <a>Timer: </a><a class="bigNum hideDisplay" id="timerOutput">:15</a>
             </div>
 
-            <div class="col-xl-1 bottom-divs">
+            <div class="col-md-1 bottom-divs">
                 <a>Score: </a> <a class="bigNum hideDisplay" id="scoreOutput">0</a>
-            </div>
+            </div> 
         </div>
     </div>
 
@@ -226,10 +229,10 @@
 
             //removing the question from the array
             questions.splice(random, 1);
-            if (questions.length === 0){
-                initials = prompt("Finished! Please enter your initials");
+            if (questions.length === 0) {
                 clearInterval(interval);
-            
+                initialsDisplay();
+
             }
 
         }
@@ -241,7 +244,7 @@
             //comparing user answer to correct answer
             if (buttonId1 === getAnswer) {
                 score++;
-                secondsLeft +=3
+                secondsLeft += 3
             } else {
                 score--;
                 secondsLeft -= 3;
@@ -299,6 +302,33 @@
             }
             getScore.textContent = score;
             setUp();
+        }
+
+        function initialsDisplay() {
+            //re-hiding the buttons
+            initials = prompt("Finished! Please enter your initials");
+            if (initials != null) {
+                topLeftButton.style.visibility = "hidden";
+                topRightButton.style.visibility = "hidden";
+                bottomLeftButton.style.visibility = "hidden";
+                bottomRightButton.style.visibility = "hidden";
+
+                getTimer.style.visibility = "hidden";
+                getScore.style.visibility = "hidden";
+                //making initials div visible
+                
+                
+                //pasting new initials
+                $("#questionText").text("Hall of Fame");
+                var newDiv = $("<div>");
+                newDiv.attr("class","initialsDiv");
+                newDiv.text(initials);
+                $("#question").append(newDiv);
+            }
+
+            // document.getElementById("demo").innerHTML = initials;
+            // document.getElementById("case").style.display = 'block';
+            // dis(initials);????????????????????????????????
         }
 
     </script>
